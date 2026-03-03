@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Опросник 💜</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body, html { 
+            margin: 0; padding: 0; height: 100%; font-family: 'Nunito', sans-serif; overflow: hidden; 
+            background-color: #1a1a2e; 
+            background-image: url('./bg.jpg'); 
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .video-container video { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.85); }
+
+        header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(15, 15, 30, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(138, 43, 226, 0.3); padding: 12px 20px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .logo { color: #a29bfe; font-family: 'Pacifico', cursive; font-size: 1.8rem; margin: 0; text-shadow: 0 0 10px rgba(162, 155, 254, 0.8); }
+        .nav-links { display: flex; gap: 12px; }
+        .nav-btn { background: rgba(30, 30, 60, 0.7); border: 1px solid rgba(162, 155, 254, 0.4); text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 1.2rem; color: white; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .nav-btn:hover, .nav-btn.active { background: rgba(162, 155, 254, 0.2); border-color: #a29bfe; transform: translateY(-3px); box-shadow: 0 0 15px rgba(162, 155, 254, 0.5); }
+
+        .main-content { display: flex; justify-content: center; align-items: center; height: 100%; padding-top: 70px; box-sizing: border-box; }
+        
+        .container { text-align: center; z-index: 10; width: 90%; max-width: 500px; background: rgba(20, 20, 40, 0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 45px 25px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.2); border: 1px solid rgba(162, 155, 254, 0.3); }
+        
+        h1 { font-family: 'Pacifico', cursive; color: #f1f2f6; font-size: 2.5rem; margin: 10px 0 35px 0; line-height: 1.3; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .subtitle { color: #a29bfe; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-bottom: -10px; }
+
+        .btn-container { position: relative; height: 65px; display: flex; justify-content: center; gap: 20px; align-items: center; width: 100%; }
+        button.action-btn { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.3rem; padding: 12px 35px; border: none; border-radius: 50px; cursor: pointer; color: white; transition: all 0.3s; touch-action: none; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        #yesBtn { background: linear-gradient(135deg, #6c5ce7, #a29bfe); box-shadow: 0 0 20px rgba(108, 92, 231, 0.6); position: relative; z-index: 2; border: 1px solid rgba(255,255,255,0.2); }
+        #yesBtn:hover { transform: scale(1.08) translateY(-3px); box-shadow: 0 0 30px rgba(162, 155, 254, 0.8); }
+        #noBtn { background: #2d3436; border: 1px solid #636e72; box-shadow: 0 10px 20px rgba(0,0,0,0.5); position: absolute; z-index: 5; }
+
+        @media (max-width: 400px) { h1 { font-size: 2rem; } button.action-btn { font-size: 1.1rem; padding: 10px 25px; } }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <!-- ОБНОВЛЕНО НА vida.mp4 -->
+        <video id="bg-vid" autoplay loop muted playsinline poster="./bg.jpg">
+            <source src="vida.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="logo">Для тебя</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn active">💌</a>
+            <a href="casino.html" class="nav-btn">🎰</a>
+            <a href="fortt.html" class="nav-btn">🎯</a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container" id="survey-box">
+            <p class="subtitle">Важный вопрос</p>
+            <h1 id="question">Пойдешь со мной на свидание?</h1>
+            <div class="btn-container" id="buttons">
+                <button id="yesBtn" class="action-btn">Да! 💜</button>
+                <button id="noBtn" class="action-btn" style="left: calc(50% + 15px);">Нет 😢</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const question = document.getElementById('question');
+        const subtitle = document.querySelector('.subtitle');
+        const buttons = document.getElementById('buttons');
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const vid = document.getElementById('bg-vid');
+            vid.muted = true;
+            vid.play().catch(e => console.log(e));
+        });
+
+        function dodgeButton(e) {
+            if(e) e.preventDefault(); 
+            const winW = window.innerWidth; const winH = window.innerHeight;
+            const minX = winW * 0.1; const maxX = winW * 0.6;
+            const minY = 150; const maxY = winH * 0.7; 
+            const randomX = Math.floor(Math.random() * (maxX - minX) + minX);
+            const randomY = Math.floor(Math.random() * (maxY - minY) + minY);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${randomX}px`;
+            noBtn.style.top = `${randomY}px`;
+        }
+
+        noBtn.addEventListener('mouseover', dodgeButton);
+        noBtn.addEventListener('touchstart', dodgeButton, {passive: false});
+        noBtn.addEventListener('click', dodgeButton);
+
+        yesBtn.addEventListener('click', () => {
+            subtitle.innerText = "Я так и знал! 💜";
+            question.innerHTML = 'Жду тебя на выходных!<br><span style="font-size: 1.2rem; font-family: Nunito; color: #a29bfe; display:block; margin-top:15px;">Загляни в меню сверху ⬆️</span>';
+            buttons.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

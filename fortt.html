@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Аим Тренер 🎯</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body, html { 
+            margin: 0; padding: 0; height: 100%; font-family: 'Nunito', sans-serif; overflow: hidden; 
+            background-color: #1a1a2e; background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .video-container video { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.85); }
+
+        header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(15, 15, 30, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(138, 43, 226, 0.3); padding: 12px 20px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .logo { color: #a29bfe; font-family: 'Pacifico', cursive; font-size: 1.8rem; margin: 0; text-shadow: 0 0 10px rgba(162, 155, 254, 0.8); }
+        .nav-links { display: flex; gap: 12px; }
+        .nav-btn { background: rgba(30, 30, 60, 0.7); border: 1px solid rgba(162, 155, 254, 0.4); text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 1.2rem; color: white; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .nav-btn:hover, .nav-btn.active { background: rgba(162, 155, 254, 0.2); border-color: #a29bfe; transform: translateY(-3px); box-shadow: 0 0 15px rgba(162, 155, 254, 0.5); }
+
+        .main-content { display: flex; flex-direction: column; align-items: center; height: 100%; padding-top: 90px; box-sizing: border-box; position: relative; }
+        
+        .score-board { background: rgba(20, 20, 40, 0.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 10px 25px; border-radius: 30px; font-size: 1.5rem; font-weight: 800; color: #a29bfe; border: 1px solid rgba(162, 155, 254, 0.5); box-shadow: 0 0 20px rgba(0,0,0,0.5); z-index: 10; }
+        #target-heart { position: absolute; font-size: 4rem; cursor: pointer; user-select: none; transition: transform 0.1s; display: none; filter: drop-shadow(0 0 15px rgba(162, 155, 254, 0.9)); }
+        #target-heart:active { transform: scale(0.7); }
+
+        .overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(20, 20, 40, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 40px 25px; border-radius: 30px; text-align: center; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8); border: 1px solid rgba(162, 155, 254, 0.5); z-index: 20; width: 85%; max-width: 400px; }
+        .overlay h2 { font-family: 'Pacifico', cursive; color: #a29bfe; font-size: 2.5rem; margin-top: 0; margin-bottom: 10px; text-shadow: 0 0 10px rgba(162, 155, 254, 0.5); }
+        .overlay p { color: #f1f2f6; font-size: 1.2rem; font-weight: 700; margin-bottom: 25px; }
+        
+        .start-btn { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.3rem; padding: 12px 35px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; transition: all 0.3s; box-shadow: 0 0 20px rgba(108, 92, 231, 0.5); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        .start-btn:hover { transform: scale(1.08) translateY(-3px); box-shadow: 0 0 30px rgba(162, 155, 254, 0.8); }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- ОБНОВЛЕНО НА video1.mp4 -->
+        <video id="bg-vid" autoplay loop muted playsinline poster="./bg.jpg">
+            <source src="video1.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="logo">Для тебя</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">💌</a>
+            <a href="casino.html" class="nav-btn">🎰</a>
+            <a href="fortt.html" class="nav-btn active">🎯</a>
+        </div>
+    </header>
+
+    <div class="main-content" id="game-area">
+        <div class="score-board">Поймано: <span id="score">0</span>/15</div>
+        <div id="target-heart">💜</div> 
+
+        <div class="overlay" id="start-screen">
+            <h2>Тренировка Аима</h2>
+            <p>Поймай 15 сердечек как можно быстрее!</p>
+            <button class="start-btn" id="startBtn">Поехали!</button>
+        </div>
+
+        <div class="overlay" id="win-screen" style="display: none;">
+            <h2>Radiant! 🏆</h2>
+            <p>У тебя отличная реакция!<br>Заслужила обнимашки 💜</p>
+            <button class="start-btn" onclick="location.reload()">Играть еще</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const vid = document.getElementById('bg-vid');
+            vid.muted = true;
+            vid.play().catch(e => console.log(e));
+        });
+
+        const heart = document.getElementById('target-heart');
+        const scoreDisplay = document.getElementById('score');
+        const startScreen = document.getElementById('start-screen');
+        const winScreen = document.getElementById('win-screen');
+        const startBtn = document.getElementById('startBtn');
+        let score = 0; let gameInterval; let moveSpeed = 1200; 
+
+        function moveHeart() {
+            const maxX = window.innerWidth - heart.offsetWidth - 40; const maxY = window.innerHeight - heart.offsetHeight - 140; 
+            const randomX = 20 + Math.floor(Math.random() * maxX); const randomY = 120 + Math.floor(Math.random() * maxY);
+            heart.style.left = `${randomX}px`; heart.style.top = `${randomY}px`;
+        }
+
+        startBtn.addEventListener('click', () => {
+            startScreen.style.display = 'none'; heart.style.display = 'block';
+            score = 0; scoreDisplay.innerText = score; moveHeart(); gameInterval = setInterval(moveHeart, moveSpeed);
+        });
+
+        heart.addEventListener('touchstart', handleHit, {passive: false});
+        heart.addEventListener('mousedown', handleHit);
+
+        function handleHit(e) {
+            e.preventDefault(); score++; scoreDisplay.innerText = score;
+            if (score >= 15) { clearInterval(gameInterval); heart.style.display = 'none'; winScreen.style.display = 'block'; return; }
+            clearInterval(gameInterval); moveSpeed = Math.max(450, moveSpeed - 50); moveHeart(); gameInterval = setInterval(moveHeart, moveSpeed); 
+        }
+    </script>
+</body>
+</html>

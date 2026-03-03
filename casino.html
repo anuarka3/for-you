@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Казино Любви 🎰</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body, html { 
+            margin: 0; padding: 0; height: 100%; font-family: 'Nunito', sans-serif; overflow: hidden; 
+            background-color: #1a1a2e; background-image: url('./bg.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat;
+        }
+        
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        .video-container video { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: brightness(0.85); }
+
+        header { position: fixed; top: 0; left: 0; width: 100%; background: rgba(15, 15, 30, 0.6); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border-bottom: 1px solid rgba(138, 43, 226, 0.3); padding: 12px 20px; box-sizing: border-box; display: flex; justify-content: space-between; align-items: center; z-index: 100; }
+        .logo { color: #a29bfe; font-family: 'Pacifico', cursive; font-size: 1.8rem; margin: 0; text-shadow: 0 0 10px rgba(162, 155, 254, 0.8); }
+        .nav-links { display: flex; gap: 12px; }
+        .nav-btn { background: rgba(30, 30, 60, 0.7); border: 1px solid rgba(162, 155, 254, 0.4); text-decoration: none; padding: 8px 15px; border-radius: 20px; font-size: 1.2rem; color: white; transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .nav-btn:hover, .nav-btn.active { background: rgba(162, 155, 254, 0.2); border-color: #a29bfe; transform: translateY(-3px); box-shadow: 0 0 15px rgba(162, 155, 254, 0.5); }
+
+        .main-content { display: flex; justify-content: center; align-items: center; height: 100%; padding-top: 70px; box-sizing: border-box; }
+        
+        .container { text-align: center; z-index: 10; width: 95%; max-width: 500px; background: rgba(20, 20, 40, 0.75); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding: 20px 15px; border-radius: 30px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(138, 43, 226, 0.2); border: 1px solid rgba(162, 155, 254, 0.3); }
+        
+        h2 { font-family: 'Pacifico', cursive; color: #a29bfe; font-size: 2rem; margin-top: 0; margin-bottom: 10px; text-shadow: 0 0 10px rgba(162, 155, 254, 0.5); }
+        
+        .prize-table { background: rgba(10, 10, 25, 0.6); border-radius: 15px; padding: 10px; margin-bottom: 15px; font-size: 0.8rem; font-weight: 800; display: grid; grid-template-columns: 1fr; gap: 5px; text-align: left; border: 1px solid rgba(162, 155, 254, 0.2); max-height: 180px; overflow-y: auto; color: #dfe6e9; }
+        .prize-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; border-radius: 8px; }
+        .common { background: rgba(99, 110, 114, 0.3); border-left: 4px solid #b2bec3; } 
+        .uncommon { background: rgba(0, 206, 201, 0.2); color: #81ecec; border-left: 4px solid #00cec9; }
+        .epic { background: rgba(162, 155, 254, 0.2); color: #a29bfe; border-left: 4px solid #a29bfe; }   
+        .legendary { background: linear-gradient(90deg, rgba(253, 203, 110, 0.2), rgba(225, 112, 85, 0.2)); border: 1px solid #fdcb6e; border-left: 4px solid #fdcb6e; color: #fdcb6e; text-shadow: 0 0 5px rgba(253, 203, 110, 0.5); }
+
+        .slot-machine { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; }
+        .slot { width: 70px; height: 85px; background: rgba(15, 15, 30, 0.9); border: 2px solid #a29bfe; border-radius: 20px; font-size: 3rem; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(162, 155, 254, 0.4); }
+        
+        button { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.3rem; padding: 12px 35px; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; cursor: pointer; background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; transition: all 0.3s; box-shadow: 0 0 20px rgba(108, 92, 231, 0.5); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        button:hover { transform: scale(1.05) translateY(-3px); box-shadow: 0 0 30px rgba(162, 155, 254, 0.8); }
+        
+        #prize-text { color: #f1f2f6; font-size: 1.1rem; font-weight: 800; min-height: 50px; margin-top: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .lose-text { color: #ff7675 !important; }
+        .leg-text { color: #fdcb6e !important; font-size: 1.4rem !important; text-shadow: 0 0 10px #fdcb6e; }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- ОБНОВЛЕНО НА video1.mp4 -->
+        <video id="bg-vid" autoplay loop muted playsinline poster="./bg.jpg">
+            <source src="video1.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <header>
+        <div class="logo">Для тебя</div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">💌</a>
+            <a href="casino.html" class="nav-btn active">🎰</a>
+            <a href="fortt.html" class="nav-btn">🎯</a>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <h2>Ночной Город 🎰</h2>
+            <div class="prize-table">
+                <div class="prize-row legendary"><span>🍿 Сходить в кино</span> <span>[ЛЕГА 0.6%]</span></div>
+                <div class="prize-row legendary"><span>🌹 Сходить погулять</span> <span>[ЛЕГА 0.6%]</span></div>
+                <div class="prize-row legendary"><span>🍕 Поесть вместе</span> <span>[ЛЕГА 0.6%]</span></div>
+                <div class="prize-row epic"><span>☕ Куплю тебе кофе</span> <span>[Эпик 2%]</span></div>
+                <div class="prize-row epic"><span>🍩 Куплю вкусняшку</span> <span>[Эпик 2%]</span></div>
+                <div class="prize-row uncommon"><span>💆‍♀️ Массаж от меня</span> <span>[Редко 4%]</span></div>
+                <div class="prize-row uncommon"><span>🎬 Фильм онлайн</span> <span>[Редко 4%]</span></div>
+                <div class="prize-row common"><span>🎮 Сходить поиграть</span> <span>[Часто 8%]</span></div>
+                <div class="prize-row common"><span>💜 5 комплиментов</span> <span>[Часто 8%]</span></div>
+            </div>
+
+            <div class="slot-machine">
+                <div class="slot" id="slot1">🎰</div>
+                <div class="slot" id="slot2">🎰</div>
+                <div class="slot" id="slot3">🎰</div>
+            </div>
+            
+            <button id="spinBtn">Крутить (1 Спин)</button>
+            <div id="prize-text">Готовься крутить долго... Удачи!</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const vid = document.getElementById('bg-vid');
+            vid.muted = true;
+            vid.play().catch(e => console.log(e));
+        });
+
+        const spinBtn = document.getElementById('spinBtn');
+        const prizeText = document.getElementById('prize-text');
+        const slots = [document.getElementById('slot1'), document.getElementById('slot2'), document.getElementById('slot3')];
+        const allEmojis = ['💜', '🎮', '💆‍♀️', '🎬', '☕', '🍩', '🍿', '🌹', '🍕', '💔'];
+
+        const gachaPool = [
+            { emoji: '💔', text: 'Проигрыш! Пусто... 😢 Крути еще!', weight: 700 }, 
+            { emoji: '💜', text: 'Дроп: Говорю тебе 5 комплиментов 🥰', weight: 80 }, 
+            { emoji: '🎮', text: 'Дроп: Идем катать вместе! ⌨️', weight: 80 }, 
+            { emoji: '💆‍♀️', text: 'Редкость: Делаю тебе массаж! 💆‍♀️', weight: 40 }, 
+            { emoji: '🎬', text: 'Редкость: Смотрим фильм онлайн! 🎬', weight: 40 }, 
+            { emoji: '☕', text: '✨ ЭПИК! Покупаю тебе кофе! ✨', weight: 20 }, 
+            { emoji: '🍩', text: '✨ ЭПИК! Покупаю тебе вкусняшку! ✨', weight: 20 }, 
+            { emoji: '🍿', text: '🏆 ЛЕГЕНДАРКА! Идем в кино! 🏆', weight: 6 }, 
+            { emoji: '🌹', text: '🏆 ЛЕГЕНДАРКА! Идем погулять! 🏆', weight: 7 }, 
+            { emoji: '🍕', text: '🏆 ЛЕГЕНДАРКА! Идем кушать вместе! 🏆', weight: 7 }
+        ];
+
+        let spinning = false;
+
+        function getRandomPrize() {
+            let random = Math.random() * 1000;
+            for (let i = 0; i < gachaPool.length; i++) {
+                if (random < gachaPool[i].weight) return gachaPool[i];
+                random -= gachaPool[i].weight;
+            }
+        }
+
+        spinBtn.addEventListener('click', () => {
+            if(spinning) return; 
+            spinning = true; spinBtn.innerText = 'Крутим...'; prizeText.innerText = 'Связь с сервером...';
+            prizeText.classList.remove('lose-text', 'leg-text');
+            const finalResult = getRandomPrize();
+
+            let spins = 0;
+            const spinInterval = setInterval(() => {
+                slots.forEach(slot => slot.innerText = allEmojis[Math.floor(Math.random() * allEmojis.length)]);
+                spins++;
+                
+                if(spins > 20) {
+                    clearInterval(spinInterval);
+                    if (finalResult.emoji === '💔') {
+                        let shuffled = [...allEmojis].filter(e => e !== '💔').sort(() => 0.5 - Math.random());
+                        slots[0].innerText = shuffled[0]; slots[1].innerText = shuffled[1]; slots[2].innerText = shuffled[2];
+                        prizeText.classList.add('lose-text');
+                    } else {
+                        slots.forEach(slot => { slot.innerText = finalResult.emoji; slot.style.transform = 'scale(1.1)'; setTimeout(() => slot.style.transform = 'scale(1)', 300); });
+                        if (['🍿', '🌹', '🍕'].includes(finalResult.emoji)) prizeText.classList.add('leg-text');
+                    }
+                    prizeText.innerHTML = finalResult.text; spinBtn.innerText = 'Крутить еще раз!'; spinning = false;
+                }
+            }, 100);
+        });
+    </script>
+</body>
+</html>
